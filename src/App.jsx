@@ -10,27 +10,35 @@ function App() {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setShortUrl('');
-    try {
-      const response = await fetch('https://very-shortly-backend.onrender.com/api/shorten', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url }),
-      });
-      if (!response.ok) throw new Error('Failed to shorten URL');
-      const data = await response.json();
-      setShortUrl(data.shortUrl);
-    } catch (e) {
-      setError('Could not shorten the URL. Please try again.', e);
-    } finally {
-      setLoading(false);
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+  setShortUrl('');
+
+  try {
+    const response = await fetch('https://very-shortly-backend.onrender.com/shorten', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ originalUrl: url }), // FIXED key name
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to shorten URL: ${errText}`);
     }
-  };
+
+    const data = await response.json();
+    setShortUrl(data.shortUrl);
+  } catch (e) {
+    console.error(e);
+    setError('Could not shorten the URL. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 text-gray-100">
