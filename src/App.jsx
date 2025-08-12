@@ -15,7 +15,7 @@ function App() {
     setError('');
     setShortUrl('');
     try {
-      const response = await fetch('http://localhost:5000/api/shorten', {
+      const response = await fetch('https://very-shortly-backend.onrender.com/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ function App() {
           <span>&copy; {new Date().getFullYear()} Very-shortly. All rights reserved.</span>
           <span className="hidden md:inline">|</span>
           <span>
-            Made with <span className="text-teal-400">&#10084;</span> by <a href="https://github.com/" className="underline hover:text-teal-300">YourName</a>
+            Made with <span className="text-teal-400">&#10084;</span> by <a href="https://github.com/Shreyas20004" className="underline hover:text-teal-300">Shreyas Nair</a>
           </span>
         </div>
       </footer>
